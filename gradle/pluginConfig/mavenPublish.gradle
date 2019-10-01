@@ -1,0 +1,78 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.amazonaws:aws-java-sdk:1.10.58'
+    }
+}
+
+apply plugin: "maven-publish"
+
+apply plugin: "signing"
+
+/*
+
+signing {
+    sign publishing.publications.mavenJava
+}
+*/
+
+def projectName = this.name
+
+publishing {
+    publications {
+        //Has format:- pubName (MavenPublication)
+        "${projectName}"(MavenPublication) {
+        }
+    }
+    repositories {
+        maven {
+            name = "-local-repo-for-${projectName}-"
+            def releasesRepoUrl = "$buildDir/repos/releases "
+            def snapshotsRepoUrl = "$buildDir/repos/snapshots"
+//            url = project.hasProperty('release') ? releasesRepoUrl : snapshotsRepoUrl
+            url = version.endsWith('SNAPSHOT') ? releasesRepoUrl : snapshotsRepoUrl
+        }
+
+        /**
+         * Refer:- https://docs.gradle.org/current/userguide/repository_types.html
+         * S3 URL formats
+         * S3 URL’s are 'virtual-hosted-style' and must be in the following format
+         *
+         * s3://<bucketName>[.<regionSpecificEndpoint>]/<s3Key>
+         * e.g. s3://myBucket.s3.eu-central-1.amazonaws.com/maven/release
+         *
+         * myBucket is the AWS S3 bucket name.
+         *
+         * s3.eu-central-1.amazonaws.com is the optional region specific endpoint.
+         *
+         * /maven/release is the AWS S3 key (unique identifier for an object within a bucket)
+         *
+         * S3 proxy settings
+         *
+         */
+
+        maven {
+            name = "-s3-repo-for-${projectName}-"
+            // arn:aws:s3:::ts-admin-app
+            def releasesRepoUrl = "s3://ts-admin-app.s3.ap-south-1.amazonaws.com/maven/release"
+            def snapshotsRepoUrl = "s3://ts-admin-app.s3.ap-south-1.amazonaws.com/maven/snapshot"
+//            url = project.hasProperty('release') ? releasesRepoUrl : snapshotsRepoUrl
+            url = version.endsWith('SNAPSHOT') ? releasesRepoUrl : snapshotsRepoUrl
+
+            /**
+             * Authentication can be set as follow:-
+             * export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+             * export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+             * export AWS_DEFAULT_REGION=ap-south-1
+             */
+            authentication {
+                awsIm(AwsImAuthentication) // load from EC2 role or env var
+            }
+        }
+    }
+}
+
