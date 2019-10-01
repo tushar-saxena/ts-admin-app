@@ -22,15 +22,21 @@ signing {
 
 def projectName = this.name
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier "sources"
+}
+
 publishing {
     publications {
         //Has format:- pubName (MavenPublication)
-        "${projectName}"(MavenPublication) {
+        "-${projectName}-"(MavenPublication) {
+            artifact sourceJar
         }
     }
     repositories {
         maven {
-            name = "-local-repo-for-${projectName}-"
+            name = "-${projectName}-local-"
             def releasesRepoUrl = "$buildDir/repos/releases "
             def snapshotsRepoUrl = "$buildDir/repos/snapshots"
 //            url = project.hasProperty('release') ? releasesRepoUrl : snapshotsRepoUrl
@@ -56,7 +62,7 @@ publishing {
          */
 
         maven {
-            name = "-s3-repo-for-${projectName}-"
+            name = "-${projectName}-S3-"
             // arn:aws:s3:::ts-admin-app
             def releasesRepoUrl = "s3://ts-admin-app.s3.ap-south-1.amazonaws.com/maven/release"
             def snapshotsRepoUrl = "s3://ts-admin-app.s3.ap-south-1.amazonaws.com/maven/snapshot"
