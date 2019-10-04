@@ -44,3 +44,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
+
+jar {
+    enabled = true
+}
+bootJar {
+    enabled false
+}

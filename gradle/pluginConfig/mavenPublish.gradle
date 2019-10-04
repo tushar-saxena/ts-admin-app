@@ -31,6 +31,7 @@ publishing {
     publications {
         //Has format:- pubName (MavenPublication)
         "-${projectName}-"(MavenPublication) {
+            from components.java
             artifact sourceJar
         }
     }
