@@ -2,14 +2,16 @@ package com.ts.tsadmin.service.repo;
 
 import com.ts.tsadmin.domain.User;
 import com.ts.tsadmin.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserRepoService extends BaseRepoService<User, Long> {
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserRepoService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     JpaRepository<User, Long> getRepository() {

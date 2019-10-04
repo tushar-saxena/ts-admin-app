@@ -7,7 +7,6 @@ import com.ts.tsadmin.service.repo.RoleRepoService;
 import com.ts.tsadmin.service.repo.UserRepoService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -24,11 +23,14 @@ public class ApplicationReadyEventHandlerService implements ApplicationListener<
     @Value("${skip.bootstrap:false}")
     Boolean skipBootstrap;
 
-    @Autowired
-    UserRepoService userRepoService;
+    private final UserRepoService userRepoService;
 
-    @Autowired
-    RoleRepoService roleRepoService;
+    private final RoleRepoService roleRepoService;
+
+    public ApplicationReadyEventHandlerService(UserRepoService userRepoService, RoleRepoService roleRepoService) {
+        this.userRepoService = userRepoService;
+        this.roleRepoService = roleRepoService;
+    }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
