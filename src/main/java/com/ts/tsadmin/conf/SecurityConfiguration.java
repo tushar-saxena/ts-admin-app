@@ -1,5 +1,6 @@
-package com.ts.tsadmin.configuration;
+package com.ts.tsadmin.conf;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 
 @Component
-//@Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -25,7 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
-    public SecurityConfiguration(BCryptPasswordEncoder bCryptPasswordEncoder, DataSource dataSource) {
+    public SecurityConfiguration(BCryptPasswordEncoder bCryptPasswordEncoder,
+                                 @Qualifier("tsAdminDataSource") DataSource dataSource) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.dataSource = dataSource;
     }
