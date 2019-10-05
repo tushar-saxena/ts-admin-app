@@ -2,6 +2,7 @@ package com.ts.tsadmin.service.repo;
 
 import com.ts.tsadmin.domain.User;
 import com.ts.tsadmin.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserRepoService extends BaseRepoService<User, Long> {
     private final UserRepository userRepository;
 
+    @Autowired
     public UserRepoService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
