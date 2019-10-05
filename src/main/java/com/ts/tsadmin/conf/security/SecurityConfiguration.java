@@ -1,7 +1,6 @@
-package com.ts.tsadmin.conf;
+package com.ts.tsadmin.conf.security;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,27 +9,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
-
 @Component
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final DataSource dataSource;
-
-    @Value("${spring.queries.users-query}")
-    private String usersQuery;
-
-    @Value("${spring.queries.roles-query}")
-    private String rolesQuery;
+    private final TsAdminUserDetailServiceImpl userDetailService;
 
     public SecurityConfiguration(BCryptPasswordEncoder bCryptPasswordEncoder,
-                                 @Qualifier("tsAdminDataSource") DataSource dataSource) {
+                                 @Qualifier("tsAdminUserDetailServiceImpl") TsAdminUserDetailServiceImpl userDetailService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.dataSource = dataSource;
+        this.userDetailService = userDetailService;
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth)
+            throws Exception {
+        auth.userDetailsService(userDetailService).passwordEncoder(bCryptPasswordEncoder);
+    }
+
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
@@ -41,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 .passwordEncoder(bCryptPasswordEncoder);
     }
+*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -68,5 +67,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
-
 }
