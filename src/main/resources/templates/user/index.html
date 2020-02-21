@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Page</title>
+    <div th:replace="~{fragment/layout.html :: header-files}"></div>
+    <script th:src="@{/js/user.crud.js}"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div th:replace="~{fragment/layout.html :: header}"></div>
+    <table id="data-table" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email Id</th>
+            <th>Gender</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -1,7 +1,9 @@
 package com.ts.tsadmin;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter;
 import org.springframework.boot.context.TypeExcludeFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -20,5 +22,10 @@ public class TsAdminApplication {
     /*public static void main(String[] args) {
         SpringApplication.run(TsAdminApplication.class, args);
     }*/
+
+        @Bean
+        public ModelMapper modelMapper() {
+                return new ModelMapper();
+        }
 
 }

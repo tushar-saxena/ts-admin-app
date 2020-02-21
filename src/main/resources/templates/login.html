@@ -3,34 +3,71 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Spring Security Tutorial</title>
-    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}"/>-->
-    <div th:replace="~{fragment/layout.html :: header-css}"></div>
-    <div th:replace="~{fragment/layout.html :: header-js}"></div>
+    <title>Login Page</title>
+    <div th:replace="~{fragment/layout.html :: header-files}"></div>
 </head>
 
 <body>
+TABLU
 <form th:action="@{/registration}" method="get">
     <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
 </form>
 
 <div class="container">
-    <img th:src="@{/images/login.jpg}" class="img-responsive center-block" width="300" height="300" alt="Logo"/>
-    <form th:action="@{/login}" method="POST" class="form-signin">
-        <h3 class="form-signin-heading" th:text="Welcome"></h3>
-        <br/>
-
-        <input type="text" id="email" name="email" value="admin@ynd.com" th:placeholder="Email"
-               class="form-control"/> <br/>
-        <input type="password" th:placeholder="Password" value="admin"
-               id="password" name="password" class="form-control"/> <br/>
-
-        <div align="center" th:if="${param.error}">
-            <p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
+    <div class="row">
+        <div class="col">
         </div>
-        <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit"
-                th:text="Login"></button>
-    </form>
+        <div class="col-6">
+            <form method="POST" class="form-signin text-center border border-light p-5" th:action="@{/login}">
+
+                <p class="h4 mb-4">Sign in</p>
+
+                <!-- Email -->
+                <input type="text" id="email" name="email" value="admin@ynd.com" th:placeholder="Email"
+                       class="form-control mb-4"/>
+
+                <!-- Password -->
+                <input type="password" th:placeholder="Password" value="admin" class="form-control mb-4"
+                       name="password">
+
+                <div class="d-flex justify-content-around">
+                    <div>
+                        <!-- Remember me -->
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                            <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+                        </div>
+                    </div>
+                    <div>
+                        <!-- Forgot password -->
+                        <a href="">Forgot password?</a>
+                    </div>
+                </div>
+
+                <!-- Sign in button -->
+                <button class="btn btn-lg btn-info btn-block" name="Submit" value="Login" type="Submit"
+                        th:text="Login"></button>
+                <!--                <button class="btn btn-info btn-block my-4" type="submit">Sign in</button>-->
+
+                <!-- Register -->
+                <p>Not a member?
+                    <a href="">Register</a>
+                </p>
+
+                <!-- Social login -->
+                <p>or sign in with:</p>
+
+                <a href="#" class="mx-2" role="button"><i class="fab fa-facebook-f light-blue-text"></i></a>
+                <a href="#" class="mx-2" role="button"><i class="fab fa-twitter light-blue-text"></i></a>
+                <a href="#" class="mx-2" role="button"><i class="fab fa-linkedin-in light-blue-text"></i></a>
+                <a href="#" class="mx-2" role="button"><i class="fab fa-github light-blue-text"></i></a>
+
+            </form>
+        </div>
+        <div class="col">
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

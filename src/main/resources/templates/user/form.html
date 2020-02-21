@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="instanceForm (instance)">
+    Fragment Included
+    <!-- Text input-->
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" class="form-control mb-4" placeholder="First Name" name="firstName"/>
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" class="form-control mb-4" placeholder="Last Name" name="lastName"/>
+        <label class="col-md-4 control-label" for="emailId">Email Id</label>
+        <div class="col-md-4">
+            <input id="emailId" name="emailId" type="text"
+                   class="form-control input-md" required th:value="${instance.getEmailId()}"/>
+        </div>
+    </div>
+</div>
